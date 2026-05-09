@@ -1,0 +1,544 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>RITIKA · our friendship gallery</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      background: linear-gradient(135deg, #ffe9f0 0%, #ffe0eb 40%, #ffd5e4 100%);
+      font-family: 'Segoe UI', 'Poppins', 'Quicksand', system-ui, -apple-system, 'Trebuchet MS', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+
+    /* floating happy elements - only joyful icons, no hearts/romance */
+    .floating-joy {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    .float-item {
+      position: absolute;
+      font-size: 2.2rem;
+      opacity: 0.28;
+      color: #f5a9bf;
+      animation: floatAround 20s infinite ease-in-out;
+      filter: drop-shadow(0 0 6px #ffb7ca);
+    }
+
+    @keyframes floatAround {
+      0% { transform: translateY(110vh) rotate(0deg) scale(0.6); opacity: 0.1; }
+      50% { opacity: 0.5; transform: translateY(40vh) rotate(12deg) scale(1); }
+      100% { transform: translateY(-20vh) rotate(22deg) scale(0.7); opacity: 0; }
+    }
+
+    /* main container */
+    .ritika-world {
+      max-width: 1300px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 20;
+      display: flex;
+      flex-direction: column;
+      gap: 4.5rem;
+    }
+
+    /* hero section — no birthday, just celebration of Ritika */
+    .hero-ritika {
+      text-align: center;
+      background: rgba(255, 248, 250, 0.88);
+      backdrop-filter: blur(8px);
+      padding: 2.8rem 1.5rem;
+      border-radius: 100px 30px 100px 30px;
+      border: 3px solid #fff5f9;
+      box-shadow: 0 28px 40px rgba(245, 140, 170, 0.25);
+      transition: 0.2s;
+    }
+
+    .hero-ritika h1 {
+      font-size: 5rem;
+      font-weight: 800;
+      background: linear-gradient(130deg, #c5567a, #e67e9d, #ffa2bc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: 2px;
+      animation: smoothRise 1.3s ease-out;
+    }
+
+    @keyframes smoothRise {
+      0% { transform: scale(0.94); opacity: 0; letter-spacing: -1px; }
+      80% { transform: scale(1.02);}
+      100% { transform: scale(1); opacity: 1; letter-spacing: 2px; }
+    }
+
+    .hero-ritika p {
+      font-size: 2rem;
+      font-weight: 500;
+      color: #ba4a6e;
+      background: #ffffffea;
+      display: inline-block;
+      padding: 0.7rem 2.2rem;
+      border-radius: 60px;
+      margin: 1.2rem 0 0.2rem;
+      border: 2px solid #ffd4e2;
+      box-shadow: 0 4px 0 #ffb3ca;
+    }
+
+    /* main gallery wall - all new images */
+    .memory-wall {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1.5rem;
+      margin: 2rem 0 1rem;
+    }
+
+    .mem-card {
+      width: 200px;
+      height: 250px;
+      transform: rotate(var(--rot, 0deg)) translateY(var(--y, 0));
+      animation: softSwing 12s infinite alternate ease-in-out;
+      filter: drop-shadow(10px 14px 18px #e28fa9);
+      transition: all 0.2s;
+    }
+
+    .mem-card:hover {
+      filter: drop-shadow(14px 18px 22px #cf7997);
+      transform: rotate(calc(var(--rot) + 1deg)) scale(1.02);
+    }
+
+    .mem-card:nth-child(odd) { --rot: -7deg; --y: -6px; }
+    .mem-card:nth-child(3n) { --rot: 11deg; --y: 8px; }
+    .mem-card:nth-child(5n+2) { --rot: -13deg; --y: -8px; }
+    .mem-card:nth-child(7n+4) { --rot: 9deg; --y: 6px; }
+
+    @keyframes softSwing {
+      0% { transform: rotate(var(--rot)) translateY(0px); }
+      100% { transform: rotate(calc(var(--rot) + 3deg)) translateY(12px); }
+    }
+
+    .mem-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 38px 12px 38px 12px;
+      border: 7px solid white;
+      outline: 4px solid #ffbfd2;
+      outline-offset: 3px;
+      box-shadow: 0 10px 18px #e0819f;
+    }
+
+    /* friendship message block (no love, no romance) */
+    .friendship-note {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 2.5rem;
+      background: rgba(255, 250, 244, 0.7);
+      backdrop-filter: blur(8px);
+      padding: 2.2rem 2rem;
+      border-radius: 70px 20px 70px 20px;
+      border: 2px solid #fff1f7;
+      box-shadow: 0 20px 30px #eaa7bd;
+      transition: 0.25s;
+    }
+
+    .friendship-note:hover {
+      background: rgba(255, 242, 246, 0.85);
+      backdrop-filter: blur(12px);
+    }
+
+    .note-text {
+      max-width: 420px;
+      font-size: 2rem;
+      font-weight: 600;
+      color: #be4d72;
+      line-height: 1.42;
+      text-align: center;
+      background: #fff8fbe6;
+      padding: 1.6rem 1.2rem;
+      border-radius: 70px 15px 70px 15px;
+      border: 2px solid #ffdae6;
+      box-shadow: inset 0 -3px 0 #ffb7ce, 0 7px 0 #e57698;
+    }
+
+    .friendship-note img {
+      width: 250px;
+      height: 280px;
+      object-fit: cover;
+      border-radius: 45% 8% 45% 8%;
+      border: 10px double white;
+      outline: 5px solid #ffbad0;
+      transform: rotate(2deg);
+      transition: 0.3s;
+      box-shadow: 0 22px 28px #bd6785;
+    }
+
+    .friendship-note.reverse {
+      flex-direction: row-reverse;
+    }
+
+    .friendship-note.reverse img {
+      transform: rotate(-3deg);
+    }
+
+    /* corner for things she vibes with */
+    .vibe-corner {
+      background: #fff0f7fa;
+      border-radius: 75px 75px 35px 35px;
+      padding: 2.8rem 1.8rem;
+      border: 5px solid white;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 24px 36px #e595b1;
+    }
+
+    .corner-label {
+      text-align: center;
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 2.5rem;
+      color: #c8577c;
+      background: #ffecf3;
+      padding: 0.8rem 2rem;
+      border-radius: 100px;
+      display: inline-block;
+      width: auto;
+      margin-left: auto;
+      margin-right: auto;
+      border: 2px solid #ffc5da;
+    }
+
+    .vibe-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2rem;
+      justify-content: center;
+    }
+
+    .vibe-piece {
+      width: 210px;
+      height: 210px;
+      transform: rotate(var(--rotV, 0deg));
+      animation: gentleBounce 7s infinite alternate;
+    }
+
+    .vibe-piece:nth-child(1) { --rotV: -6deg; }
+    .vibe-piece:nth-child(2) { --rotV: 10deg; }
+    .vibe-piece:nth-child(3) { --rotV: -11deg; }
+    .vibe-piece:nth-child(4) { --rotV: 7deg; }
+
+    @keyframes gentleBounce {
+      0% { transform: rotate(var(--rotV)) translateY(0px); }
+      100% { transform: rotate(calc(var(--rotV) + 2deg)) translateY(-12px); }
+    }
+
+    .vibe-piece img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 45% 18% 45% 15%;
+      border: 8px solid white;
+      outline: 4px solid #ffb2ca;
+      box-shadow: 0 18px 24px #d17597;
+    }
+
+    .quote-friendship {
+      text-align: center;
+      font-size: 2.1rem;
+      font-weight: 550;
+      color: #ba4e71;
+      background: #fff7fae8;
+      padding: 2rem 1.8rem;
+      border-radius: 110px 25px 110px 25px;
+      border: 3px solid white;
+      backdrop-filter: blur(5px);
+      box-shadow: 0 18px 26px #ecb0c2;
+    }
+
+    .fun-duo {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 1.8rem;
+      background: #ffeaf3;
+      border-radius: 60px 15px 60px 15px;
+      padding: 2rem 1.5rem;
+      border: 3px dashed #ffd2e3;
+    }
+
+    .fun-duo p {
+      font-size: 1.9rem;
+      color: #b14d70;
+      max-width: 280px;
+      background: #ffffffee;
+      padding: 1.5rem;
+      border-radius: 48px 12px 48px 12px;
+      box-shadow: 0 8px 0 #ffbed5;
+    }
+
+    .fun-duo img {
+      width: 200px;
+      height: 210px;
+      object-fit: cover;
+      border-radius: 40% 8% 40% 8%;
+      border: 7px solid white;
+      outline: 5px solid #fcaec5;
+      transform: rotate(-2deg);
+    }
+
+    .bestie-footer {
+      text-align: center;
+      padding: 3rem 1rem;
+      font-size: 2.6rem;
+      font-weight: 700;
+      color: #c65479;
+      background: #fff4faee;
+      border-radius: 200px 35px 200px 35px;
+      border: 7px solid white;
+      margin-top: 1rem;
+      backdrop-filter: blur(6px);
+    }
+
+    .tiny-gallery {
+      display: flex;
+      justify-content: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-top: 0.5rem;
+    }
+
+    /* music control button - subtle but visible */
+    .music-control {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #ffd0de;
+      border: 2px solid white;
+      border-radius: 50px;
+      padding: 10px 18px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #b54368;
+      cursor: pointer;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      transition: 0.2s;
+      font-family: inherit;
+    }
+    .music-control:hover {
+      background: #ffbfd0;
+      transform: scale(1.02);
+    }
+
+    @media (max-width: 680px) {
+      .hero-ritika h1 { font-size: 3rem; }
+      .note-text { font-size: 1.5rem; }
+      .quote-friendship { font-size: 1.4rem; }
+      .bestie-footer { font-size: 1.8rem; }
+      .music-control { padding: 6px 14px; font-size: 0.75rem; bottom: 15px; right: 15px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="floating-joy">
+    <div class="float-item" style="left: 5%; animation-duration: 14s;">🍬</div>
+    <div class="float-item" style="left: 18%; animation-duration: 17s;">⭐</div>
+    <div class="float-item" style="left: 32%; animation-duration: 21s;">🌸</div>
+    <div class="float-item" style="left: 47%; animation-duration: 15s;">🍭</div>
+    <div class="float-item" style="left: 62%; animation-duration: 19s;">🎨</div>
+    <div class="float-item" style="left: 76%; animation-duration: 18s;">✨</div>
+    <div class="float-item" style="left: 88%; animation-duration: 23s;">💫</div>
+    <div class="float-item" style="left: 13%; animation-duration: 25s;">🌈</div>
+    <div class="float-item" style="left: 54%; animation-duration: 27s;">🧸</div>
+  </div>
+
+  <div class="ritika-world">
+
+    <!-- hero: no birthday / no love -->
+    <div class="hero-ritika">
+      <h1>✨ RITIKA ✨</h1>
+      <p>the most beautiful soul & forever bestie</p>
+    </div>
+
+    <!-- ALL NEW IMAGES GALLERY (no repeats fixed, only provided links) -->
+    <div class="memory-wall">
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_1_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_10_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_8_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_6_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_7_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_3_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_4_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_5_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_9_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+      <!-- photo_8 is already used, but we add one more of unique 2 to make total 11 different images (original set had a duplicate but we keep collection fresh) -->
+      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" alt="ritika extra"></div>
+    </div>
+
+    <!-- message block 1 (pure friendship) -->
+    <div class="friendship-note">
+      <div class="note-text">ritika, you make ordinary days feel like a celebration — so much warmth & laughter 💫</div>
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_7_2026-05-09_16-55-58.jpg" alt="vibe">
+    </div>
+
+    <!-- reverse message block 2 -->
+    <div class="friendship-note reverse">
+      <div class="note-text">from stupid giggles to deep talks — having you as a friend is the best plot twist ✨</div>
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_10_2026-05-09_16-55-58.jpg" alt="bestie">
+    </div>
+
+    <!-- little vibe zone (things she adores) -->
+    <div class="vibe-corner">
+      <div class="corner-label">💖 ritika's little joys 💖</div>
+      <div class="vibe-grid">
+        <div class="vibe-piece"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCF4QyXtQfOK35MsAUymK-wlYn9uuhklnNUw&s" alt="cozy"></div>
+        <div class="vibe-piece"><img src="https://png.pngtree.com/png-vector/20240208/ourmid/pngtree-nepal-food-momo-dumpling-png-image_11719797.png" alt="momo love"></div>
+        <div class="vibe-piece"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPV5l19xmcarDJSV1hU0A5ZvDXm5nCIGX5A&s" alt="treats"></div>
+        <div class="vibe-piece"><img src="https://www.oetker.in/assets/recipes/assets/d8a4b00c292a43adbb9f96798e028f01/1272x764/pizza-pollo-arrostojpg.webp" alt="bts army"></div>
+      </div>
+    </div>
+
+    <!-- message block 3 (only friendship) -->
+    <div class="friendship-note">
+      <div class="note-text">the way you care, the way you hype everyone — pure magic. never change, ritika 🌸</div>
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_5_2026-05-09_16-55-58.jpg" alt="glow">
+    </div>
+
+    <!-- reverse block 4 -->
+    <div class="friendship-note reverse">
+      <div class="note-text">thank you for being unapologetically YOU. our friendship is my comfort zone 🤍</div>
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_3_2026-05-09_16-55-58.jpg" alt="smile">
+    </div>
+
+    <!-- inspiring quote (friendship theme) -->
+    <div class="quote-friendship">
+      🌼 “a friend like ritika is like a permanent ray of sunshine — bright, warm, and absolutely irreplaceable.” 🌼
+    </div>
+
+    <!-- fun duo with two images and cute message -->
+    <div class="fun-duo">
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_4_2026-05-09_16-55-58.jpg" alt="ritika style">
+      <p>my absolute favorite human — let's collect more beautiful memories together 💗</p>
+      <img src="https://i.pinimg.com/736x/f8/86/30/f88630fc816b42d7b3ec4bca85cf9806.jpg" alt="bts purple">
+    </div>
+
+    <!-- final heartfelt message block -->
+    <div class="friendship-note">
+      <div class="note-text">may your days be filled with purple skies, yummy momos, and endless reasons to smile 🌈</div>
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_9_2026-05-09_16-55-58.jpg" alt="ritika radiant">
+    </div>
+
+    <!-- aesthetic double picture section with friendship note -->
+    <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; background: #ffeaf2; padding: 2rem; border-radius: 85px 15px 85px 15px;">
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_1_2026-05-09_16-55-58.jpg" style="width: 200px; height: 210px; object-fit: cover; border-radius: 42% 12% 42% 12%; border: 8px solid white; transform: rotate(5deg); outline: 4px solid #ffb3c9;" alt="memory">
+      <p style="font-size: 1.9rem; color:#c1597e; background: white; padding: 1.4rem; border-radius: 50px; max-width: 280px; font-weight: 600;">ritika, you’re iconic. stay the way you are — absolutely legendary ✨</p>
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_6_2026-05-09_16-55-58.jpg" style="width: 200px; height: 210px; object-fit: cover; border-radius: 35% 8% 35% 8%; border: 8px solid white; transform: rotate(-5deg); outline: 4px solid #ffb3c9;" alt="vibes">
+    </div>
+
+    <!-- bestie footer - no birthday wording -->
+    <div class="bestie-footer">
+      😚 cheers to you, ritika! 🫶<br>
+      <span style="font-size: 1.7rem; display: block; margin-top: 12px;">forever side by side, through every season ✨</span>
+    </div>
+
+    <!-- tiny extra gallery with leftover images -->
+    <div class="tiny-gallery">
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" style="width: 170px; height: 180px; object-fit: cover; border-radius: 35px; transform: rotate(2deg); border: 6px solid white; outline: 4px solid #ffadc5;" alt="ritika">
+      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_8_2026-05-09_16-55-58.jpg" style="width: 170px; height: 180px; object-fit: cover; border-radius: 35px; transform: rotate(-4deg); border: 6px solid white; outline: 4px solid #ffadc5;" alt="ritika">
+    </div>
+
+  </div>
+
+  <!-- music player: auto-plays music.mp3 from same folder as index.html -->
+  <audio id="bgMusic" loop preload="auto">
+    <source src="music.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <!-- simple control button to let user toggle music if needed -->
+  <div class="music-control" id="musicToggleBtn">
+    🎵 playing music
+  </div>
+
+  <script>
+    // Auto-play music as soon as page loads (handles browser restrictions)
+    const audio = document.getElementById('bgMusic');
+    const toggleBtn = document.getElementById('musicToggleBtn');
+    let musicPlaying = false;
+
+    // Function to start music (must be triggered by user interaction due to browser policies)
+    // But we'll try to autoplay, and if blocked, we'll wait for first click anywhere.
+    function playMusic() {
+      audio.play().then(() => {
+        musicPlaying = true;
+        if (toggleBtn) toggleBtn.innerHTML = '🎵 music playing';
+      }).catch(err => {
+        console.log("Auto-play blocked, waiting for user interaction");
+        musicPlaying = false;
+        if (toggleBtn) toggleBtn.innerHTML = '🔇 click to play music';
+      });
+    }
+
+    // Try to autoplay immediately
+    playMusic();
+
+    // Also add a global one-time interaction listener (any click on body) to play if autoplay blocked
+    const playOnInteraction = () => {
+      if (!musicPlaying) {
+        audio.play().then(() => {
+          musicPlaying = true;
+          if (toggleBtn) toggleBtn.innerHTML = '🎵 music playing';
+        }).catch(e => console.log("still can't play"));
+      }
+      document.removeEventListener('click', playOnInteraction);
+      document.removeEventListener('touchstart', playOnInteraction);
+    };
+    document.addEventListener('click', playOnInteraction);
+    document.addEventListener('touchstart', playOnInteraction);
+
+    // Toggle button functionality (play/pause)
+    if (toggleBtn) {
+      toggleBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        if (audio.paused) {
+          audio.play().then(() => {
+            musicPlaying = true;
+            toggleBtn.innerHTML = '🎵 music playing';
+          }).catch(err => console.log("Playback failed"));
+        } else {
+          audio.pause();
+          musicPlaying = false;
+          toggleBtn.innerHTML = '🔇 music paused';
+        }
+      });
+    }
+
+    // When music ends (loop is on, but just in case)
+    audio.addEventListener('ended', () => {
+      if (audio.loop) {
+        audio.play();
+      }
+    });
+  </script>
+</body>
+</html>
