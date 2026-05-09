@@ -324,28 +324,66 @@
       margin-top: 0.5rem;
     }
 
-    /* music control button - subtle but visible */
-    .music-control {
+    /* ----- SPLASH ENTRANCE HEART BUTTON ----- */
+    .entrance-heart {
       position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #ffd0de;
-      border: 2px solid white;
-      border-radius: 50px;
-      padding: 10px 18px;
-      font-size: 0.9rem;
-      font-weight: 600;
-      color: #b54368;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(145deg, #ffdce8, #ffc0d0);
+      z-index: 9999;
+      display: flex;
+      justify-content: center;
+      align-items: center;
       cursor: pointer;
-      z-index: 100;
-      backdrop-filter: blur(8px);
-      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-      transition: 0.2s;
-      font-family: inherit;
+      transition: all 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      backdrop-filter: blur(2px);
     }
-    .music-control:hover {
-      background: #ffbfd0;
-      transform: scale(1.02);
+
+    .entrance-heart.fade-out {
+      opacity: 0;
+      visibility: hidden;
+      pointer-events: none;
+    }
+
+    .heart-button {
+      background: #ff3b6f;
+      width: 180px;
+      height: 180px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 25px 45px rgba(199, 48, 88, 0.5), 0 0 0 20px rgba(255, 200, 215, 0.4), 0 0 0 40px rgba(255, 180, 200, 0.2);
+      animation: heartbeatPulse 1.8s infinite ease-in-out;
+      transition: transform 0.2s;
+    }
+
+    .heart-button:hover {
+      transform: scale(1.03);
+    }
+
+    .heart-button svg {
+      width: 110px;
+      height: 110px;
+      fill: white;
+      filter: drop-shadow(0 4px 8px rgba(0,0,0,0.2));
+    }
+
+    @keyframes heartbeatPulse {
+      0% { transform: scale(0.95); box-shadow: 0 25px 45px rgba(199, 48, 88, 0.5), 0 0 0 20px rgba(255, 200, 215, 0.4), 0 0 0 40px rgba(255, 180, 200, 0.2); }
+      50% { transform: scale(1.05); box-shadow: 0 30px 55px rgba(199, 48, 88, 0.6), 0 0 0 30px rgba(255, 200, 215, 0.5), 0 0 0 55px rgba(255, 180, 200, 0.3); }
+      100% { transform: scale(0.95); box-shadow: 0 25px 45px rgba(199, 48, 88, 0.5), 0 0 0 20px rgba(255, 200, 215, 0.4), 0 0 0 40px rgba(255, 180, 200, 0.2); }
+    }
+
+    /* hide all content initially until heart click */
+    .main-content {
+      opacity: 0;
+      transition: opacity 1s ease;
+    }
+    .main-content.visible {
+      opacity: 1;
     }
 
     @media (max-width: 680px) {
@@ -353,192 +391,214 @@
       .note-text { font-size: 1.5rem; }
       .quote-friendship { font-size: 1.4rem; }
       .bestie-footer { font-size: 1.8rem; }
-      .music-control { padding: 6px 14px; font-size: 0.75rem; bottom: 15px; right: 15px; }
+      .heart-button { width: 140px; height: 140px; }
+      .heart-button svg { width: 80px; height: 80px; }
     }
   </style>
 </head>
 <body>
 
-  <div class="floating-joy">
-    <div class="float-item" style="left: 5%; animation-duration: 14s;">🍬</div>
-    <div class="float-item" style="left: 18%; animation-duration: 17s;">⭐</div>
-    <div class="float-item" style="left: 32%; animation-duration: 21s;">🌸</div>
-    <div class="float-item" style="left: 47%; animation-duration: 15s;">🍭</div>
-    <div class="float-item" style="left: 62%; animation-duration: 19s;">🎨</div>
-    <div class="float-item" style="left: 76%; animation-duration: 18s;">✨</div>
-    <div class="float-item" style="left: 88%; animation-duration: 23s;">💫</div>
-    <div class="float-item" style="left: 13%; animation-duration: 25s;">🌈</div>
-    <div class="float-item" style="left: 54%; animation-duration: 27s;">🧸</div>
+  <!-- ENTRANCE HEART BUTTON (click to reveal website + start music) -->
+  <div class="entrance-heart" id="entranceHeart">
+    <div class="heart-button">
+      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+      </svg>
+    </div>
   </div>
 
-  <div class="ritika-world">
-
-    <!-- hero: no birthday / no love -->
-    <div class="hero-ritika">
-      <h1>✨ RITIKA ✨</h1>
-      <p>the most beautiful soul & forever bestie</p>
+  <!-- main website content wrapper -->
+  <div class="main-content" id="mainContent">
+    <div class="floating-joy">
+      <div class="float-item" style="left: 5%; animation-duration: 14s;">🍬</div>
+      <div class="float-item" style="left: 18%; animation-duration: 17s;">⭐</div>
+      <div class="float-item" style="left: 32%; animation-duration: 21s;">🌸</div>
+      <div class="float-item" style="left: 47%; animation-duration: 15s;">🍭</div>
+      <div class="float-item" style="left: 62%; animation-duration: 19s;">🎨</div>
+      <div class="float-item" style="left: 76%; animation-duration: 18s;">✨</div>
+      <div class="float-item" style="left: 88%; animation-duration: 23s;">💫</div>
+      <div class="float-item" style="left: 13%; animation-duration: 25s;">🌈</div>
+      <div class="float-item" style="left: 54%; animation-duration: 27s;">🧸</div>
     </div>
 
-    <!-- ALL NEW IMAGES GALLERY (no repeats fixed, only provided links) -->
-    <div class="memory-wall">
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_1_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_10_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_8_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_6_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_7_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_3_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_4_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_5_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_9_2026-05-09_16-55-58.jpg" alt="ritika"></div>
-      <!-- photo_8 is already used, but we add one more of unique 2 to make total 11 different images (original set had a duplicate but we keep collection fresh) -->
-      <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" alt="ritika extra"></div>
-    </div>
+    <div class="ritika-world">
 
-    <!-- message block 1 (pure friendship) -->
-    <div class="friendship-note">
-      <div class="note-text">ritika, you make ordinary days feel like a celebration — so much warmth & laughter 💫</div>
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_7_2026-05-09_16-55-58.jpg" alt="vibe">
-    </div>
-
-    <!-- reverse message block 2 -->
-    <div class="friendship-note reverse">
-      <div class="note-text">from stupid giggles to deep talks — having you as a friend is the best plot twist ✨</div>
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_10_2026-05-09_16-55-58.jpg" alt="bestie">
-    </div>
-
-    <!-- little vibe zone (things she adores) -->
-    <div class="vibe-corner">
-      <div class="corner-label">💖 ritika's little joys 💖</div>
-      <div class="vibe-grid">
-        <div class="vibe-piece"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCF4QyXtQfOK35MsAUymK-wlYn9uuhklnNUw&s" alt="cozy"></div>
-        <div class="vibe-piece"><img src="https://png.pngtree.com/png-vector/20240208/ourmid/pngtree-nepal-food-momo-dumpling-png-image_11719797.png" alt="momo love"></div>
-        <div class="vibe-piece"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPV5l19xmcarDJSV1hU0A5ZvDXm5nCIGX5A&s" alt="treats"></div>
-        <div class="vibe-piece"><img src="https://www.oetker.in/assets/recipes/assets/d8a4b00c292a43adbb9f96798e028f01/1272x764/pizza-pollo-arrostojpg.webp" alt="bts army"></div>
+      <!-- hero: no birthday / no love -->
+      <div class="hero-ritika">
+        <h1>✨ RITIKA ✨</h1>
+        <p>the most beautiful soul & forever bestie</p>
       </div>
-    </div>
 
-    <!-- message block 3 (only friendship) -->
-    <div class="friendship-note">
-      <div class="note-text">the way you care, the way you hype everyone — pure magic. never change, ritika 🌸</div>
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_5_2026-05-09_16-55-58.jpg" alt="glow">
-    </div>
+      <!-- ALL NEW IMAGES GALLERY (no repeats fixed, only provided links) -->
+      <div class="memory-wall">
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_1_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_10_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_8_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_6_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_7_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_3_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_4_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_5_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_9_2026-05-09_16-55-58.jpg" alt="ritika"></div>
+        <div class="mem-card"><img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" alt="ritika extra"></div>
+      </div>
 
-    <!-- reverse block 4 -->
-    <div class="friendship-note reverse">
-      <div class="note-text">thank you for being unapologetically YOU. our friendship is my comfort zone 🤍</div>
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_3_2026-05-09_16-55-58.jpg" alt="smile">
-    </div>
+      <!-- message block 1 (pure friendship) -->
+      <div class="friendship-note">
+        <div class="note-text">ritika, you make ordinary days feel like a celebration — so much warmth & laughter 💫</div>
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_7_2026-05-09_16-55-58.jpg" alt="vibe">
+      </div>
 
-    <!-- inspiring quote (friendship theme) -->
-    <div class="quote-friendship">
-      🌼 “a friend like ritika is like a permanent ray of sunshine — bright, warm, and absolutely irreplaceable.” 🌼
-    </div>
+      <!-- reverse message block 2 -->
+      <div class="friendship-note reverse">
+        <div class="note-text">from stupid giggles to deep talks — having you as a friend is the best plot twist ✨</div>
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_10_2026-05-09_16-55-58.jpg" alt="bestie">
+      </div>
 
-    <!-- fun duo with two images and cute message -->
-    <div class="fun-duo">
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_4_2026-05-09_16-55-58.jpg" alt="ritika style">
-      <p>my absolute favorite human — let's collect more beautiful memories together 💗</p>
-      <img src="https://i.pinimg.com/736x/f8/86/30/f88630fc816b42d7b3ec4bca85cf9806.jpg" alt="bts purple">
-    </div>
+      <!-- little vibe zone (things she adores) -->
+      <div class="vibe-corner">
+        <div class="corner-label">💖 ritika's little joys 💖</div>
+        <div class="vibe-grid">
+          <div class="vibe-piece"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQCF4QyXtQfOK35MsAUymK-wlYn9uuhklnNUw&s" alt="cozy"></div>
+          <div class="vibe-piece"><img src="https://png.pngtree.com/png-vector/20240208/ourmid/pngtree-nepal-food-momo-dumpling-png-image_11719797.png" alt="momo love"></div>
+          <div class="vibe-piece"><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTFPV5l19xmcarDJSV1hU0A5ZvDXm5nCIGX5A&s" alt="treats"></div>
+          <div class="vibe-piece"><img src="https://www.oetker.in/assets/recipes/assets/d8a4b00c292a43adbb9f96798e028f01/1272x764/pizza-pollo-arrostojpg.webp" alt="bts army"></div>
+        </div>
+      </div>
 
-    <!-- final heartfelt message block -->
-    <div class="friendship-note">
-      <div class="note-text">may your days be filled with purple skies, yummy momos, and endless reasons to smile 🌈</div>
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_9_2026-05-09_16-55-58.jpg" alt="ritika radiant">
-    </div>
+      <!-- message block 3 (only friendship) -->
+      <div class="friendship-note">
+        <div class="note-text">the way you care, the way you hype everyone — pure magic. never change, ritika 🌸</div>
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_5_2026-05-09_16-55-58.jpg" alt="glow">
+      </div>
 
-    <!-- aesthetic double picture section with friendship note -->
-    <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; background: #ffeaf2; padding: 2rem; border-radius: 85px 15px 85px 15px;">
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_1_2026-05-09_16-55-58.jpg" style="width: 200px; height: 210px; object-fit: cover; border-radius: 42% 12% 42% 12%; border: 8px solid white; transform: rotate(5deg); outline: 4px solid #ffb3c9;" alt="memory">
-      <p style="font-size: 1.9rem; color:#c1597e; background: white; padding: 1.4rem; border-radius: 50px; max-width: 280px; font-weight: 600;">ritika, you’re iconic. stay the way you are — absolutely legendary ✨</p>
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_6_2026-05-09_16-55-58.jpg" style="width: 200px; height: 210px; object-fit: cover; border-radius: 35% 8% 35% 8%; border: 8px solid white; transform: rotate(-5deg); outline: 4px solid #ffb3c9;" alt="vibes">
-    </div>
+      <!-- reverse block 4 -->
+      <div class="friendship-note reverse">
+        <div class="note-text">thank you for being unapologetically YOU. our friendship is my comfort zone 🤍</div>
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_3_2026-05-09_16-55-58.jpg" alt="smile">
+      </div>
 
-    <!-- bestie footer - no birthday wording -->
-    <div class="bestie-footer">
-      😚 cheers to you, ritika! 🫶<br>
-      <span style="font-size: 1.7rem; display: block; margin-top: 12px;">forever side by side, through every season ✨</span>
-    </div>
+      <!-- inspiring quote (friendship theme) -->
+      <div class="quote-friendship">
+        🌼 “a friend like ritika is like a permanent ray of sunshine — bright, warm, and absolutely irreplaceable.” 🌼
+      </div>
 
-    <!-- tiny extra gallery with leftover images -->
-    <div class="tiny-gallery">
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" style="width: 170px; height: 180px; object-fit: cover; border-radius: 35px; transform: rotate(2deg); border: 6px solid white; outline: 4px solid #ffadc5;" alt="ritika">
-      <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_8_2026-05-09_16-55-58.jpg" style="width: 170px; height: 180px; object-fit: cover; border-radius: 35px; transform: rotate(-4deg); border: 6px solid white; outline: 4px solid #ffadc5;" alt="ritika">
-    </div>
+      <!-- fun duo with two images and cute message -->
+      <div class="fun-duo">
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_4_2026-05-09_16-55-58.jpg" alt="ritika style">
+        <p>my absolute favorite human — let's collect more beautiful memories together 💗</p>
+        <img src="https://i.pinimg.com/736x/f8/86/30/f88630fc816b42d7b3ec4bca85cf9806.jpg" alt="bts purple">
+      </div>
 
+      <!-- final heartfelt message block -->
+      <div class="friendship-note">
+        <div class="note-text">may your days be filled with purple skies, yummy momos, and endless reasons to smile 🌈</div>
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_9_2026-05-09_16-55-58.jpg" alt="ritika radiant">
+      </div>
+
+      <!-- aesthetic double picture section with friendship note -->
+      <div style="display: flex; flex-wrap: wrap; gap: 2rem; justify-content: center; align-items: center; background: #ffeaf2; padding: 2rem; border-radius: 85px 15px 85px 15px;">
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_1_2026-05-09_16-55-58.jpg" style="width: 200px; height: 210px; object-fit: cover; border-radius: 42% 12% 42% 12%; border: 8px solid white; transform: rotate(5deg); outline: 4px solid #ffb3c9;" alt="memory">
+        <p style="font-size: 1.9rem; color:#c1597e; background: white; padding: 1.4rem; border-radius: 50px; max-width: 280px; font-weight: 600;">ritika, you’re iconic. stay the way you are — absolutely legendary ✨</p>
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_6_2026-05-09_16-55-58.jpg" style="width: 200px; height: 210px; object-fit: cover; border-radius: 35% 8% 35% 8%; border: 8px solid white; transform: rotate(-5deg); outline: 4px solid #ffb3c9;" alt="vibes">
+      </div>
+
+      <!-- bestie footer - no birthday wording -->
+      <div class="bestie-footer">
+        😚 cheers to you, ritika! 🫶<br>
+        <span style="font-size: 1.7rem; display: block; margin-top: 12px;">forever side by side, through every season ✨</span>
+      </div>
+
+      <!-- tiny extra gallery with leftover images -->
+      <div class="tiny-gallery">
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_2_2026-05-09_16-55-58.jpg" style="width: 170px; height: 180px; object-fit: cover; border-radius: 35px; transform: rotate(2deg); border: 6px solid white; outline: 4px solid #ffadc5;" alt="ritika">
+        <img src="https://uploads.onecompiler.io/43peec75j/44nrxbtrf/photo_8_2026-05-09_16-55-58.jpg" style="width: 170px; height: 180px; object-fit: cover; border-radius: 35px; transform: rotate(-4deg); border: 6px solid white; outline: 4px solid #ffadc5;" alt="ritika">
+      </div>
+
+    </div>
   </div>
 
-  <!-- music player: auto-plays music.mp3 from same folder as index.html -->
+  <!-- AUDIO ELEMENT: music.mp3 from same folder -->
   <audio id="bgMusic" loop preload="auto">
     <source src="music.mp3" type="audio/mpeg">
-    Your browser does not support the audio element.
+    Your browser does not support audio.
   </audio>
 
-  <!-- simple control button to let user toggle music if needed -->
-  <div class="music-control" id="musicToggleBtn">
-    🎵 playing music
-  </div>
-
   <script>
-    // Auto-play music as soon as page loads (handles browser restrictions)
-    const audio = document.getElementById('bgMusic');
-    const toggleBtn = document.getElementById('musicToggleBtn');
-    let musicPlaying = false;
+    (function() {
+      const heartOverlay = document.getElementById('entranceHeart');
+      const mainContent = document.getElementById('mainContent');
+      const audioElem = document.getElementById('bgMusic');
 
-    // Function to start music (must be triggered by user interaction due to browser policies)
-    // But we'll try to autoplay, and if blocked, we'll wait for first click anywhere.
-    function playMusic() {
-      audio.play().then(() => {
-        musicPlaying = true;
-        if (toggleBtn) toggleBtn.innerHTML = '🎵 music playing';
-      }).catch(err => {
-        console.log("Auto-play blocked, waiting for user interaction");
-        musicPlaying = false;
-        if (toggleBtn) toggleBtn.innerHTML = '🔇 click to play music';
-      });
-    }
-
-    // Try to autoplay immediately
-    playMusic();
-
-    // Also add a global one-time interaction listener (any click on body) to play if autoplay blocked
-    const playOnInteraction = () => {
-      if (!musicPlaying) {
-        audio.play().then(() => {
-          musicPlaying = true;
-          if (toggleBtn) toggleBtn.innerHTML = '🎵 music playing';
-        }).catch(e => console.log("still can't play"));
-      }
-      document.removeEventListener('click', playOnInteraction);
-      document.removeEventListener('touchstart', playOnInteraction);
-    };
-    document.addEventListener('click', playOnInteraction);
-    document.addEventListener('touchstart', playOnInteraction);
-
-    // Toggle button functionality (play/pause)
-    if (toggleBtn) {
-      toggleBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        if (audio.paused) {
-          audio.play().then(() => {
-            musicPlaying = true;
-            toggleBtn.innerHTML = '🎵 music playing';
-          }).catch(err => console.log("Playback failed"));
-        } else {
-          audio.pause();
-          musicPlaying = false;
-          toggleBtn.innerHTML = '🔇 music paused';
+      // function to start everything (hide heart, show content, play music)
+      function startExperience() {
+        if (!heartOverlay || !mainContent) return;
+        
+        // add fade-out class to heart overlay
+        heartOverlay.classList.add('fade-out');
+        
+        // make main content visible
+        mainContent.classList.add('visible');
+        
+        // play music AND also handle autoplay restrictions gracefully
+        if (audioElem) {
+          audioElem.play().then(() => {
+            console.log("Music playing successfully");
+          }).catch((err) => {
+            console.log("Auto-play blocked? but heart click should allow:", err);
+            // Sometimes browsers still block, but heart click is user gesture so it should work.
+            // fallback: try again after a tiny delay
+            setTimeout(() => {
+              audioElem.play().catch(e => console.log("still blocked"));
+            }, 100);
+          });
         }
-      });
-    }
-
-    // When music ends (loop is on, but just in case)
-    audio.addEventListener('ended', () => {
-      if (audio.loop) {
-        audio.play();
+        
+        // optional: remove the overlay from DOM after transition ends
+        setTimeout(() => {
+          if (heartOverlay && heartOverlay.parentNode) {
+            heartOverlay.style.display = 'none';
+          }
+        }, 800);
       }
-    });
+      
+      // attach click event listener to the entrance heart button
+      if (heartOverlay) {
+        heartOverlay.addEventListener('click', startExperience);
+      }
+      
+      // small fallback: if user clicks anywhere inside heart overlay (already)
+      // also ensure main content is hidden initially
+      if (mainContent) {
+        mainContent.classList.remove('visible');
+        mainContent.style.opacity = '0';
+        // ensure smooth transition
+        setTimeout(() => {
+          if (!mainContent.classList.contains('visible')) {
+            mainContent.style.opacity = '0';
+          } else {
+            mainContent.style.opacity = '1';
+          }
+        }, 10);
+      }
+      
+      // re-trigger opacity on visible class
+      const observer = new MutationObserver(function(mutations) {
+        mutations.forEach(function(mutation) {
+          if (mutation.attributeName === 'class') {
+            if (mainContent.classList.contains('visible')) {
+              mainContent.style.opacity = '1';
+            } else {
+              mainContent.style.opacity = '0';
+            }
+          }
+        });
+      });
+      if (mainContent) {
+        observer.observe(mainContent, { attributes: true });
+      }
+    })();
   </script>
 </body>
 </html>
